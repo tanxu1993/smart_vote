@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="./source/plugin/smart_vote/img/style.css" rel="stylesheet" type="text/css" />
+<script src="http://code.jquery.com/jquery-1.6.min.js" type="text/javascript"></script><!-- <script type="text/javascript" src="./source/plugin/smart_vote/img/index.js"></script> -->
+</head>
+
+<div>
+index
+<button>
+    <a href="./plugin.php?id=smart_vote&model=sign">sign</a>
+</button>
+    <span>{$count}</span>
+    <hr>
+<!--{loop $query $key $val}-->
+<div>
+    <table>
+        <tr>
+            <td>$val[name]</td>
+            <td>$val[mobile]</td>
+            <td id="num">$val[votenum]</td>
+        </tr>
+    </table>
+</div>
+<div id="box">
+    <button class="box_btn" data-aid="$val[id]">click</button>
+</div>
+<hr>
+<!--{/loop}-->
+   $pagenav;
+  <a class="button" id="button">
+    点我
+  </a>
+
+  <div class="geetest">
+    <div class="bg"></div>
+    <div class="wrap">
+      <div class="top">
+        <a class="exit" id="close" href="javascript:;"></a>
+        <div class="title">
+          请通过验证
+        </div>
+      </div>
+      <script type="text/javascript" src="http://api.geetest.com/get.php?gt=23cdc4a265c158bab51dcf1592ba3616&width=300" async></script>
+    </div>
+<script type="text/javascript">
+var box_btns = document.getElementsByClassName('box_btn');
+for (var i = 0, len = box_btns.length; i < len; i = i + 1) {
+    box_btns[i].addEventListener('click', function (e) {
+    document.getElementById('button').click();
+        voteid = e.currentTarget.dataset.aid;
+    });
+}
+var voteid;
+var qs = function(e) {
+      return document.querySelector(e);
+    };
+    var button = document.getElementById("button");
+
+    var geetest = qs(".geetest");
+    button.onclick = function(event) {
+     geetest.style.display = "block";
+    };
+    var close = document.getElementById("close");
+    close.onclick = function() {
+      geetest.style.display = "none";
+    };
+    qs(".bg").onclick = function() {
+      geetest.style.display = "none";
+    };
+    window.gt_custom_ajax = function(result, id, message) {
+      if(result) {
+        qs('#' + id).parentNode.parentNode.style.display = "none";
+        value = $('#' + id).find('input');
+        
+            $.ajax({
+              type:'POST',
+              url:'./plugin.php?id=smart_vote&model=value',
+              data:{"geetest_challenge":value[0].value,"geetest_validate":value[1].value,"geetest_seccode":value[2].value,"voteid":voteid},
+              success:function(data){
+                    if (data == "a") {
+                        alert('123');
+                        window.location.reload();
+                    };
+                }
+            })
+          }
+    }
+</script>
+  </div>
+</div>
