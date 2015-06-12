@@ -46,17 +46,33 @@ if ("sign" == $_GET['model']) {
         }
 
     }
-}else{
+}else if ("post" == $_GET['model']) {
 
-    
-    $name = $_POST['name'];
+ // $filename = $_FILES['file']['type'];
+
+$up=new upphoto;  
+  $up->get_ph_tmpname($_FILES['file']['tmp_name']);  
+  $up->get_ph_type($_FILES['file']['type']);  
+  $up->get_ph_size($_FILES['file']['size']);  
+  $up->get_ph_name($_FILES['file']['name']);  
+  $up->save();  
+     $name = $_POST['name'];
     $mobile = $_POST['mobile'];
+    $text = $_POST['text'];
     C::app()->init();
+    // $time = $helper
     $data = array(
         'name' => $name,
-        'mobile' => $mobile
+        'mobile' => $mobile,
+        'filepath' => $up->ph_name,
+        'note' => $text,
     );
     C::t("#smart_vote#smart_vote")->insert($data);
-    // echo $name;
+    // include template("smart_vote:post");
+}else if ("detail" == $_GET['model']) {
+    $gid = $_GET['gid'];
+    $detail = C::t("#smart_vote#smart_vote")->fetch_by_id($gid);
+
+    include template("smart_vote:detail");
 }
  ?>

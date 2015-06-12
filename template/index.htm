@@ -13,6 +13,10 @@ index
 </button>
     <span>{$count}</span>
     <hr>
+    <form>
+      <input type="text" name="id"/>
+      <button>btn</button>
+    </form>
 <!--{loop $query $key $val}-->
 <div>
     <table>
@@ -20,11 +24,15 @@ index
             <td>$val[name]</td>
             <td>$val[mobile]</td>
             <td id="num">$val[votenum]</td>
+            <td><img src="{$val[filepath]}" ></td>
         </tr>
     </table>
 </div>
 <div id="box">
     <button class="box_btn" data-aid="$val[id]">click</button>
+</div>
+<div>
+<a href="./plugin.php?id=smart_vote&model=detail&gid={$val[id]}">detail</a>
 </div>
 <hr>
 <!--{/loop}-->

@@ -1,74 +1,86 @@
-<?php
-$uptypes=array(
-'image/jpg',
-'image/jpeg',
-'image/pjpeg',
-'image/png',
-'image/gif',
-'image/bmp',
-'image/x-png'
-);
-?>
-<html>
-<head>
-<title>图片上传程序</title>
-</head>
-<body>
-<form name="upform" method="post" enctype="multipart/form-data" />
-上传文件：
-<input name="upfile" type="file"/>
-<input type="submit" value="上传"/><br />
-允许上传的文件类型：<?=implode(", ",$uptypes)?>
-</form>
-<?php
-
-$max_file_size=2000000;
-$destination_folder="uploadimg/";
-$imgpreview=1;
-$imgpreviewsize=1/2;
-if($_SERVER["REQUEST_METHOD"]== "POST") {
-    if(!is_uploaded_file($_FILES["upfile"]["tmp_name"])) {
-        //检查文件是否存在
-        echo "文件不存在!";
-        exit;
-    }
-    $file=$_FILES["upfile"];
-    if($max_file_size<$file["size"]) {
-        //检查文件大小
-        echo "文件太大!";
-        exit;
-    }
-    if(!in_array($file["type"],$uptypes)) {
-        //检查文件类型
-        echo "文件类型错误".$file["type"];
-        exit;
-    }
-    if(!file_exists($destination_folder)) {
-        mkdir($destination_folder);
-    }
-    $filename=$file["tmp_name"];      //上传到缓存区的临时文件名称
-//echo $filename;
-    $image_size=getimagesize($filename);
-//echo $file["name"];
-    $pinfo=pathinfo($file["name"]); // $file["name"] 客户端文件的原名称
-    $ftype=$pinfo["extension"];
-    $destination=$destination_folder.time().".".$ftype;
-    if(file_exists($destination)&&$overwrite !=true) {
-        echo "同名文件已经存在了!";
-        exit;
-    }
-    if(!move_uploaded_file($filename,$destination)) {
-        echo "移动文件错误!";
-        exit;
-    }
-    $pinfo=pathinfo($destination);
-    $fname=$pinfo["basename"];
-    echo "<font color=red>已经成功上传!</font><br />文件名：<font color=blue>".$destination_folder.$fname."</font><br />";
-    echo " 宽度: ".$image_size[0]." 长度： ".$image_size[1]."<br />大小：".$file["size"]." bytes";
-    if($imgpreview==1) {
-        echo "<br/>图片浏览:<br />";
-        echo "<img src="/" mce_src="/""".$destination."/" width=".($image_size[0]*$imgpreviewsize)."height=".($image_size[1]*$imgpreviewsize);
-        echo " alt=/"图片浏览:/r文件名".$destination."/r上传时间:/" />";
-    }
+<?php 
+class upphoto{   
+ public $previewsize=0.125  ;   //预览图片比例   
+ public $preview=0;   //是否生成预览，是为1，否为0   
+    public $datetime;   //随机数   
+    public $ph_name;   //上传图片文件名   
+    public $ph_tmp_name;    //图片临时文件名   
+    public $ph_path="./source/plugin/smart_vote/uploadimg/";    //上传文件存放路径   
+ public $ph_type;   //图片类型   
+    public $ph_size;   //图片大小   
+    public $imgsize;   //上传图片尺寸，用于判断显示比例   
+    public $al_ph_type=array('image/jpg','image/jpeg','image/png','image/pjpeg','image/gif','image/bmp','image/x-png');    //允许上传图片类型   
+    public $al_ph_size=1000000;   //允许上传文件大小   
+  function __construct(){   
+    $this->set_datatime();   
+  }   
+  function set_datatime(){   
+   $this->datetime=date("YmdHis");   
+  }   
+   //获取文件类型   
+  function get_ph_type($phtype){   
+     $this->ph_type=$phtype;   
+  }   
+  //获取文件大小   
+  function get_ph_size($phsize){   
+     $this->ph_size=$phsize."<br>";   
+  }   
+  //获取上传临时文件名   
+  function get_ph_tmpname($tmp_name){   
+    $this->ph_tmp_name=$tmp_name;   
+    $this->imgsize=getimagesize($tmp_name);   
+  }   
+  //获取原文件名   
+  function get_ph_name($phname){   
+    $this->ph_name=$this->ph_path.$this->datetime.strrchr($phname,"."); //strrchr获取文件的点最后一次出现的位置   
+ //$this->ph_name=$this->datetime.strrchr($phname,"."); //strrchr获取文件的点最后一次出现的位置   
+ return $this->ph_name;   
+  }   
+ //判断上传文件存放目录   
+  function check_path(){   
+    if(!file_exists($this->ph_path)){   
+     mkdir($this->ph_path);   
+    }   
+  }   
+  //判断上传文件是否超过允许大小   
+  function check_size(){   
+    if($this->ph_size>$this->al_ph_size){   
+     $this->showerror("上传图片超过2000KB");   
+    }   
+  }   
+  //判断文件类型   
+  function check_type(){   
+   if(!in_array($this->ph_type,$this->al_ph_type)){   
+         $this->showerror("上传图片类型错误");   
+   }   
+  }   
+  //上传图片   
+   function up_photo(){   
+   if(!move_uploaded_file($this->ph_tmp_name,$this->ph_name)){   
+    $this->showerror("上传文件出错");   
+   }   
+  }   
+  //图片预览   
+   function showphoto(){   
+      if($this->preview==1){   
+      if($this->imgsize[0]>2000){   
+        $this->imgsize[0]=$this->imgsize[0]*$this->previewsize;   
+             $this->imgsize[1]=$this->imgsize[1]*$this->previewsize;   
+      }   
+         echo("<img src=\"{$this->ph_name}\" width=\"{$this->imgsize['0']}\" height=\"{$this->imgsize['1']}\">");   
+     }   
+   }   
+  //错误提示   
+  function showerror($errorstr){   
+    echo "<script language=javascript>alert('$errorstr');location='javascript:history.go(-1);';</script>";   
+   exit();   
+  }   
+  function save(){   
+   $this->check_path();   
+   $this->check_size();   
+   $this->check_type();   
+   $this->up_photo();   
+   $this->showphoto();   
+  }   
 }
-?>
+ ?>

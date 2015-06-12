@@ -52,10 +52,11 @@ class table_smart_vote extends discuz_table {
     }
     //插入一条投票记录    
     public function insert($data) {
-        return DB::insert($this->_table,$data,true);
+        return DB::insert($this->_table,$data);
     }
     //根据id删除一条投票记录
     public function delete_by_id($id) {
         return DB::delete($this->_table,"id=".$id,true);    
     }
+    
 }

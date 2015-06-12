@@ -1,5 +1,5 @@
 <h1>sign</h1>
-<form action="./plugin.php?id=smart_vote&model=post" method="post"> 
+<form action="./plugin.php?id=smart_vote&model=post" method="post" enctype="multipart/form-data"> 
     <div>
         <label>name</label> 
         <input type="text" id="name" name="name"/>
@@ -14,8 +14,8 @@
     </div>
     <div>
         <label>file</label>
-        <input type="file" name="file" id="file" value=""/>
+        <input type="file" name="file" id="file" /> 
         
     </div>
-        <input type="submit">
+        <input type="submit" name="submit" value="Submit" />
 </form>
