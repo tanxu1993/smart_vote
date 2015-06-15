@@ -39,8 +39,8 @@ class table_smart_vote extends discuz_table {
         return DB::fetch_first('SELECT * FROM %t WHERE id=%d', array($this->_table, $id));
     }
     //根据名字取结果集
-    public function fetch_by_name($name) {
-        return DB::fetch_first('SELECT * FROM %t WHERE name=%d', array($this->_table, $name));
+    public function fetch_by_name($where) {
+        return DB::fetch_all('SELECT * FROM %t WHERE %i', array($this->_table, $where));
     }
     // public function fetch_by_id_one($id,$field) {
     //     return DB::result_first("SELECT $field FROM %t WHERE id=%d", array($this->_table, $id));

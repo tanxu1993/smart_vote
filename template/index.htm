@@ -13,9 +13,9 @@ index
 </button>
     <span>{$count}</span>
     <hr>
-    <form>
-      <input type="text" name="id"/>
-      <button>btn</button>
+    <form action="" method="post"> 
+      <input type="text" name="id" id="seachid"/>
+      <input type="button" value="btn" id="seach" onclick="Seach();"/>
     </form>
 <!--{loop $query $key $val}-->
 <div>
@@ -95,6 +95,23 @@ var qs = function(e) {
             })
           }
     }
+
+    function Seach(){
+      var seachid = document.getElementById('seachid').value;
+            $.ajax({
+              type:'POST',
+              url:'./plugin.php?id=smart_vote&model=seach',
+              data:{seachid : seachid },
+              success:function(data){
+                    if (data == "true") {
+                        window.location.href = "./plugin.php?id=smart_vote"+"&"+"model=detail"+"&"+"gid="+seachid;
+                    }else{
+                        window.location.href = "./plugin.php?id=smart_vote"+"&"+"model=math"+"&"+"gname="+seachid;
+                    }
+                }
+            })
+    }
+
 </script>
   </div>
 </div>

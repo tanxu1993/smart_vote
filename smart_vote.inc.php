@@ -15,14 +15,20 @@ if ("sign" == $_GET['model']) {
 
     include template("smart_vote:sign");
 }else if("index" == $_GET['model']){
-    $page = $_GET['page'];
     $pageSize = "5" ;
-    $firstcount = ($page-1) * $pageSize;
-    $lastcount = $page * $pageSize;
-    $query = C::t("#smart_vote#smart_vote")->fetch_all($firstcount,$lastcount);
+    $page = $_GET['page'];
     $count = C::t("#smart_vote#smart_vote")->count_all();
+    if ($page == "" || !isset($page)) {
+        $query = C::t("#smart_vote#smart_vote")->fetch_all('0','5');
+        pageft($count,$pageSize,1,0,0,3);
+    }else{
+
+        $firstcount = ($page-1) * $pageSize;
+        // $lastcount = $page * $pageSize;
+        $query = C::t("#smart_vote#smart_vote")->fetch_all($firstcount,$pageSize);
+        pageft($count,$pageSize,1,0,0,3);
+    }
     // pageft($count,10);
-    pageft($count,$pageSize,1,0,0,3);
     include template("smart_vote:index");
 }else if ("value" == $_GET['model']) {
     $geetest = new GeetestLib();
@@ -55,8 +61,8 @@ $up=new upphoto;
   $up->get_ph_type($_FILES['file']['type']);  
   $up->get_ph_size($_FILES['file']['size']);  
   $up->get_ph_name($_FILES['file']['name']);  
-  $up->save();  
-     $name = $_POST['name'];
+  $up->save(); 
+    $name = $_POST['name'];
     $mobile = $_POST['mobile'];
     $text = $_POST['text'];
     C::app()->init();
@@ -70,9 +76,29 @@ $up=new upphoto;
     C::t("#smart_vote#smart_vote")->insert($data);
     // include template("smart_vote:post");
 }else if ("detail" == $_GET['model']) {
+
     $gid = $_GET['gid'];
     $detail = C::t("#smart_vote#smart_vote")->fetch_by_id($gid);
 
     include template("smart_vote:detail");
+}else if ("seach" == $_GET['model']) {
+    $seach = $_POST['seachid'];
+    $by_id = C::t("#smart_vote#smart_vote")->fetch_by_id($seach);
+    if ($by_id['name'] != "") {
+        echo "true";
+    }else{
+        echo "flase";
+    }
+}else if ("math" == $_GET['model']) {
+    $gname = $_GET['gname'];
+    file_put_contents("/home/tanxu/www/post.txt", $gname , FILE_APPEND);
+    $where = "`name` = '$gname' ";
+    $by_name = C::t("#smart_vote#smart_vote")->fetch_by_name($where);
+
+    file_put_contents("/home/tanxu/www/post.txt", print_r($by_name,true) , FILE_APPEND);
+    if (!is_array($by_name) || empty($by_name)) {
+        echo "error";
+    }
+        include template("smart_vote:seach");
 }
  ?>
