@@ -15,6 +15,32 @@ if ("sign" == $_GET['model']) {
 
     include template("smart_vote:sign");
 }else if("index" == $_GET['model']){
+
+    $openid = $_COOKIE["openid"]; //openid
+$unionid = $_COOKIE["unionid"]; //unionid
+$urlmark = $_COOKIE["urlmark"]; //判断外部链接标识
+$openidStr = $_COOKIE["openidStr"]; //关注标识
+$redirect_uri = urlencode("http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php");
+if($openid == "" or $unionid == ""){
+  if($urlmark == ""){
+    header("Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3abef1b51f2838a1&redirect_uri=" . $redirect_uri . "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+  exit();
+  }
+}else{
+$rs = C::t("#smart_vote#info_atten")->fetch_by_openid($openid);
+  if($rs>0){
+    if($rs["cancel"] == 0){
+      $openid = $_COOKIE["openid"]; //openid
+      $unionid = $_COOKIE["unionid"]; //unionid
+    $openidStr = ""; //已关注
+    }else{
+      $openidStr = "null"; //未关注
+    }
+  }else{
+    $openidStr = "null"; //未关注
+  }
+}
+
     $pageSize = "5" ;
     $page = $_GET['page'];
     $count = C::t("#smart_vote#smart_vote")->count_all();
@@ -91,11 +117,11 @@ $up=new upphoto;
     }
 }else if ("math" == $_GET['model']) {
     $gname = $_GET['gname'];
-    file_put_contents("/home/tanxu/www/post.txt", $gname , FILE_APPEND);
+    // file_put_contents("/home/tanxu/www/post.txt", $gname , FILE_APPEND);
     $where = "`name` = '$gname' ";
     $by_name = C::t("#smart_vote#smart_vote")->fetch_by_name($where);
 
-    file_put_contents("/home/tanxu/www/post.txt", print_r($by_name,true) , FILE_APPEND);
+    // file_put_contents("/home/tanxu/www/post.txt", print_r($by_name,true) , FILE_APPEND);
     if (!is_array($by_name) || empty($by_name)) {
         echo "error";
     }

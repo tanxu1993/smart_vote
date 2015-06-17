@@ -18,6 +18,26 @@ CREATE TABLE IF NOT EXISTS pre_smart_vote (
     PRIMARY KEY (`id`,`uid`),
     KEY `name` (`name`)
 ) TYPE=MyISAM;
+
+CREATE TABLE IF NOT EXISTS `pre_wxinfo` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `tokenid` varchar(200) NOT NULL,
+  `timedate` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `pre_info_atten` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(50) NOT NULL,
+  `unionid` varchar(50) NOT NULL,
+  `nickname` varchar(100) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `cancel` int(1) NOT NULL COMMENT '1为取消',
+  `timedate` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `openid` (`openid`)
+);
+
 EOF;
 runquery($sql);
 
