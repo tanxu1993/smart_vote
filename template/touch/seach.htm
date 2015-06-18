@@ -1,0 +1,15 @@
+<div>
+<!--{loop $by_name  $val}-->
+    <table>
+        <td>
+        name:$val[name]
+        </td>
+        <td>
+       mobile:$val[mobile]
+        </td>
+        <td>
+        img:<img src="{$val[filepath]}" >
+        </td>
+    </table>
+<!--{/loop}-->
+</div>

@@ -20,10 +20,10 @@ if ("sign" == $_GET['model']) {
 $unionid = $_COOKIE["unionid"]; //unionid
 $urlmark = $_COOKIE["urlmark"]; //判断外部链接标识
 $openidStr = $_COOKIE["openidStr"]; //关注标识
-$redirect_uri = urlencode("http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php");
+// $redirect_uri = urlencode("http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php");
 if($openid == "" or $unionid == ""){
   if($urlmark == ""){
-    header("Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3abef1b51f2838a1&redirect_uri=" . $redirect_uri . "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+    header("Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3abef1b51f2838a1&redirect_uri=http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
   exit();
   }
 }else{

@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS pre_smart_vote (
     KEY `name` (`name`)
 ) TYPE=MyISAM;
 
-CREATE TABLE IF NOT EXISTS `pre_wxinfo` (
+CREATE TABLE IF NOT EXISTS `pre_smart_token` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `tokenid` varchar(200) NOT NULL,
-  `timedate` int(11) NOT NULL,
+  `tokenid` varchar(200) NOT NULL DEFAULT '',
+  `timedate` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 );
 
