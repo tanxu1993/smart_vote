@@ -17,29 +17,30 @@ if ("sign" == $_GET['model']) {
 }else if("index" == $_GET['model']){
 
     $openid = $_COOKIE["openid"]; //openid
-$unionid = $_COOKIE["unionid"]; //unionid
-$urlmark = $_COOKIE["urlmark"]; //判断外部链接标识
-$openidStr = $_COOKIE["openidStr"]; //关注标识
-// $redirect_uri = urlencode("http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php");
-if($openid == "" or $unionid == ""){
-  if($urlmark == ""){
-    header("Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3abef1b51f2838a1&redirect_uri=http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
-  exit();
-  }
-}else{
-$rs = C::t("#smart_vote#info_atten")->fetch_by_openid($openid);
-  if($rs>0){
-    if($rs["cancel"] == 0){
-      $openid = $_COOKIE["openid"]; //openid
-      $unionid = $_COOKIE["unionid"]; //unionid
-    $openidStr = ""; //已关注
+    // $unionid = $_COOKIE["unionid"]; //unionid
+    $urlmark = $_COOKIE["urlmark"]; //判断外部链接标识
+    $openidStr = $_COOKIE["openidStr"]; //关注标识
+        file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "openid=" . $openid , FILE_APPEND);
+    // setcookie("openid",$openid,time()-3600,"/");
+    if($openid == ""){
+      // if($urlmark == ""){
+        header("Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3abef1b51f2838a1&redirect_uri=http://test.geetest.com/discuz/discuz_31_UTF8/upload/source/plugin/smart_vote/oauth2.php&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
+      exit();
+      // }
     }else{
-      $openidStr = "null"; //未关注
+    $rs = C::t("#smart_vote#smart_info")->fetch_by_openid($openid);
+      if(!empty($rs)){
+        if($rs["cancel"] == 1){
+          $openid = $_COOKIE["openid"]; //openid
+          // $unionid = $_COOKIE["unionid"]; //unionid
+        $openidStr = "1"; //已关注
+        }else{
+          $openidStr = "null"; //未关注
+        }
+      }else{
+        $openidStr = "null"; //未关注
+      }
     }
-  }else{
-    $openidStr = "null"; //未关注
-  }
-}
 
     $pageSize = "5" ;
     $page = $_GET['page'];
@@ -57,6 +58,24 @@ $rs = C::t("#smart_vote#info_atten")->fetch_by_openid($openid);
     // pageft($count,10);
     include template("smart_vote:index");
 }else if ("value" == $_GET['model']) {
+    $openid = $_COOKIE["openid"]; //openid
+        file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "=======" . $openid , FILE_APPEND);
+   //  if($openid == ""){
+   //    echo "e"; //非法提交
+   //    exit();
+   //  }
+
+   // $rs = C::t("#smart_vote#smart_info")->fetch_by_openid($openid);
+   //      file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", print_r($rs,true) , FILE_APPEND);
+   //    if(!empty($rs)){
+   //      if($rs["cancel"] == 0){
+   //          echo "f"; //未关注
+   //          exit();
+   //      }
+   //   }else{
+   //      echo "q";
+   //      exit();
+   //   }
     $geetest = new GeetestLib();
     $geetest->set_privatekey("465719ad89db5cbe489cc051ff81a38e");
     $voteid = $_POST['voteid'];

@@ -31,8 +31,8 @@ class table_smart_token extends discuz_table {
     }
 
 
-    public function update_by_id($data,$id) {
-        return DB::update($this->_table,$data,"id=".$id);
+    public function update_by_id($data,$where) {
+        return DB::update($this->_table,$data, $where);
     }
 
     public function insert($data) {

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `pre_smart_token` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `pre_info_atten` (
+CREATE TABLE IF NOT EXISTS `pre_smart_info` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `openid` varchar(50) NOT NULL,
   `unionid` varchar(50) NOT NULL,

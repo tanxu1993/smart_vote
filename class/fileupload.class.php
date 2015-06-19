@@ -56,7 +56,7 @@ class upphoto{
   }   
   //上传图片   
    function up_photo(){   
-   if(!move_uploaded_file($this->ph_tmp_name,$this->ph_name)){   
+   if(!move_uploaded_file($this->ph_tmp_name,$this->ph_name)){ 
     $this->showerror("上传文件出错");   
    }   
   }   
