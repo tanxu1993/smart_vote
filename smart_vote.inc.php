@@ -60,34 +60,37 @@ if ("sign" == $_GET['model']) {
 }else if ("value" == $_GET['model']) {
     $openid = $_COOKIE["openid"]; //openid
         file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "=======" . $openid , FILE_APPEND);
-   //  if($openid == ""){
-   //    echo "e"; //非法提交
-   //    exit();
-   //  }
 
-   // $rs = C::t("#smart_vote#smart_info")->fetch_by_openid($openid);
-   //      file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", print_r($rs,true) , FILE_APPEND);
-   //    if(!empty($rs)){
-   //      if($rs["cancel"] == 0){
-   //          echo "f"; //未关注
-   //          exit();
-   //      }
-   //   }else{
-   //      echo "q";
-   //      exit();
-   //   }
     $geetest = new GeetestLib();
     $geetest->set_privatekey("465719ad89db5cbe489cc051ff81a38e");
     $voteid = $_POST['voteid'];
     if (isset($_POST['geetest_challenge']) && isset($_POST['geetest_validate']) && isset($_POST['geetest_seccode'])) {
         $result = $geetest->validate($_POST['geetest_challenge'], $_POST['geetest_validate'], $_POST['geetest_seccode']);
         if ($result == TRUE) {
+           //  if($openid == ""){
+           //    echo "e"; //非法提交
+           //    exit();
+           //  }
 
-            $data = C::t("#smart_vote#smart_vote")->fetch_by_id($voteid);
-            $where = array('votenum' => $data['votenum']+1);
-            C::t("#smart_vote#smart_vote")->update_by_id($where,$voteid);
-            echo "a";
-            exit();
+            $rs = C::t("#smart_vote#smart_info")->fetch_by_openid($openid);
+            file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "cancel=" . print_r($rs,true) , FILE_APPEND);
+            if(!empty($rs)){
+                if($rs["cancel"] == 0){
+                    echo "a"; //未关注
+                    file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "cancel=0" , FILE_APPEND);
+                    exit();
+                }else if ($rs["cancel"] == 1) {
+                    $data = C::t("#smart_vote#smart_vote")->fetch_by_id($voteid);
+                    $where = array('votenum' => $data['votenum']+1);
+                    C::t("#smart_vote#smart_vote")->update_by_id($where,$voteid);
+                    echo "f";
+                    file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "cancel=1" , FILE_APPEND);
+                    exit();
+                }
+             }else{
+                echo "q";
+                exit();
+             }
         } else if ($result == FALSE) {
             echo "b";
             exit();
