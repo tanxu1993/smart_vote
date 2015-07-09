@@ -116,7 +116,7 @@ if ("sign" == $_GET['model']) {
                         $where1 = array('votenum' => $vote_data['votenum']+1);
                         C::t("#smart_vote#smart_vote")->update_by_id($where1,$voteid);
                           //修改统计表纪录
-                        $count_data= array('count' => '1');
+                        $count_data= array('count' => '1','timedate'=>$exitdate);
                         $count_res = C::t("#smart_vote#smart_count")->fetch_by_openid($openid);
                         C::t("#smart_vote#smart_count")->update_by_id($count_data,$count_res['cid']);
                         file_put_contents("/www/discuz/discuz_31_UTF8/upload/source/plugin/post.txt", "q1=" . "\r\n", FILE_APPEND);
