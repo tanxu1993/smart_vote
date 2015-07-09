@@ -23,26 +23,35 @@
 		<item id="var">
 			<item id="0">
 				<item id="displayorder"><![CDATA[1]]></item>
-				<item id="title"><![CDATA[是否开启web端验证:]]></item>
-				<item id="description"><![CDATA[是否开启web端验证！]]></item>
+				<item id="title"><![CDATA[AppID(应用ID):]]></item>
+				<item id="description"><![CDATA[AppID(应用ID)]]></item>
 				<item id="variable"><![CDATA[open]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[1]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="1">
 				<item id="displayorder"><![CDATA[2]]></item>
-				<item id="title"><![CDATA[是否开启移动端验证:]]></item>
-				<item id="description"><![CDATA[移动端验证体验得到优化，移动端验证只支持触屏版，不支持标准版！]]></item>
+				<item id="title"><![CDATA[AppSecret(应用密钥):]]></item>
+				<item id="description"><![CDATA[AppSecret(应用密钥)]]></item>
 				<item id="variable"><![CDATA[mobile]]></item>
-				<item id="type"><![CDATA[radio]]></item>
-				<item id="value"><![CDATA[0]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
 				<item id="extra"><![CDATA[]]></item>
 			</item>
 			<item id="2">
 				<item id="displayorder"><![CDATA[3]]></item>
-				<item id="title"><![CDATA[是否开启垃圾过滤:]]></item>
-				<item id="description"><![CDATA[垃圾过滤]]></item>
+				<item id="title"><![CDATA[是否开启验证码:]]></item>
+				<item id="description"><![CDATA[是否开启验证码]]></item>
+				<item id="variable"><![CDATA[check]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="3">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[报名作品是否需要审核:]]></item>
+				<item id="description"><![CDATA[报名作品是否需要审核]]></item>
 				<item id="variable"><![CDATA[check]]></item>
 				<item id="type"><![CDATA[radio]]></item>
 				<item id="value"><![CDATA[1]]></item>

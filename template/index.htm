@@ -88,14 +88,14 @@ var qs = function(e) {
               url:'./plugin.php?id=smart_vote&model=value',
               data:{"geetest_challenge":value[0].value,"geetest_validate":value[1].value,"geetest_seccode":value[2].value,"voteid":voteid},
               success:function(data){
-                    if (data == "a") {
-                        alert('123');
+                    if (data == "success") {
+                        alert('success');
                         window.location.reload();
-                    }else if (data == "f") {
-                      alert('weiguanzhu');
-                    }else if(data == "q") {
-                      alert('error');
-                    }else if (data == "e") {
+                    }else if (data == "shangxian") {
+                      alert('shangxian');
+                    }else if(data == "24xiangtong") {
+                      alert('24xiangtong');
+                    }else if (data == "feifa") {
                       alert('feifa');
                     }
                 }

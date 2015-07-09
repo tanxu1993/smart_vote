@@ -29,11 +29,11 @@ class table_smart_info extends discuz_table {
     }
 
     public function fetch_by_unionid($unionid) {
-        return DB::fetch_first('SELECT * FROM %t WHERE unionid=%d', array($this->_table, $unionid));
+        return DB::fetch_first('SELECT * FROM %t WHERE `unionid`=%s', array($this->_table, $unionid));
     }
 
     public function fetch_by_openid($openid) {
-        return DB::fetch_first('SELECT * FROM %t WHERE openid=%d', array($this->_table, $openid));
+        return DB::fetch_first('SELECT * FROM %t WHERE `openid`=%s', array($this->_table, $openid));
     }
     
 }
